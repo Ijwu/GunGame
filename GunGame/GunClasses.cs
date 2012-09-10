@@ -97,6 +97,16 @@ namespace GunGame
             MaxLevel = GameLevels.Levels.Count;
         }
 
+        public void Broadcast(string message, Color color)
+        {
+            lock (Players)
+            {
+                foreach (GunPlayer ply in Players)
+                {
+                    ply.TSPlayer.SendMessage(message, color);
+                }
+            }
+        }
         public void AddMember(int index)
         {
             GunPlayer ply = GunTools.GetGunPlayerByID(index);
@@ -134,7 +144,7 @@ namespace GunGame
             else
             {
                 ply.TSPlayer.SendMessage("You've joined a game in progress!", Color.Aqua);
-                GunTools.ResetPlayer(ply);
+                GunTools.SpawnAndGiveItems(ply);
             }
 
         }
@@ -149,6 +159,7 @@ namespace GunGame
                     gm.TSPlayer.SendMessage(ply.TSPlayer.Name + " has left the GunGame.", Color.Aqua);
                 }
             }
+            ply.TSPlayer.DamagePlayer(500);
             ply.CurrentGame = null;
             ply.KillingPlayer = null;
             Amount--;
@@ -178,7 +189,7 @@ namespace GunGame
                     foreach (GunPlayer ply in Players)
                     {
                         ply.KillingPlayer = null;
-                        GunTools.ResetPlayer(ply);
+                        GunTools.SpawnAndGiveItems(ply);
                         ply.TSPlayer.SendMessage("The GunGame has begun! Kill each other to get level ups!", Color.Aqua);
                     }
                 }

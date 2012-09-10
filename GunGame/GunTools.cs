@@ -59,25 +59,17 @@ namespace GunGame
                     ply.GiveItem(give.type, give.name, give.width, give.height, give.maxStack);
                 }
             }
-            Item knife = TShock.Utils.GetItemByName(list.Knife)[0];
-            ply.GiveItem(knife.type, knife.name, knife.width, knife.height, knife.maxStack);
-        }
-        public static string[] GetCurrentLevelItems(GunPlayer ply, int level, LevelList list)
-        {
-            return list.Levels[level];
+            if (list.Knife != "null")
+            {
+                Item knife = TShock.Utils.GetItemByName(list.Knife)[0];
+                ply.GiveItem(knife.type, knife.name, knife.width, knife.height, knife.maxStack);
+            }
+            ply.TSPlayer.Teleport(x, y);
         }
         public static void SpawnAndGiveItems(GunPlayer ply)
         {
             ply.TSPlayer.Spawn();
             ply.GiveCurrentLevel();
-        }
-        public static void ResetPlayer(GunPlayer ply)
-        {
-            int x = ply.TSPlayer.TileX;
-            int y = ply.TSPlayer.TileY;
-            ply.TSPlayer.DamagePlayer(500);
-            ply.TSPlayer.Teleport(x, y);
-            SpawnAndGiveItems(ply);
         }
         public static bool CheckIfFreshCharacter(GunPlayer ply)
         {

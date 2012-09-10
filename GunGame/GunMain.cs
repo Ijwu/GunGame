@@ -90,9 +90,9 @@ namespace GunGame
         }
         private void OnLeave(int who)
         {
-            if (TShock.Players[who].TPlayer.difficulty == 1)
+            GunPlayer ply = GunTools.GetGunPlayerByID(who);
+            if (ply != null)
             {
-                GunPlayer ply = GunTools.GetGunPlayerByID(who);
                 if (ply.CurrentGame != null)
                     ply.CurrentGame.SilentRemoveMember(ply.Index);
                 Players.Remove(ply);
